@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,6 +14,8 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,12 +41,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun LoginScreen() {
     var name by remember { mutableStateOf("") }
     var nim by remember { mutableStateOf("") }
     var submittedData by remember { mutableStateOf<Pair<String, String>?>(null) }
+
+    val context = LocalContext.current
+
+    val isFormValid = name.isNotBlank() && nim.isNotBlank()
 
     Box(
         modifier = Modifier
@@ -65,7 +72,6 @@ fun LoginScreen() {
                 modifier = Modifier.padding(bottom = 24.dp)
             )
 
-            // Name Field with rounded corners and border
             TextField(
                 value = name,
                 onValueChange = { name = it },
@@ -93,7 +99,6 @@ fun LoginScreen() {
                 )
             )
 
-            // NIM Field with rounded corners and border
             TextField(
                 value = nim,
                 onValueChange = { nim = it },
@@ -131,11 +136,27 @@ fun LoginScreen() {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp),
+                    .height(48.dp)
+                    .combinedClickable(
+                        onClick = {},
+                        onLongClick = {
+                            // Display a Toast with name and nim on long click
+                            Toast.makeText(context, "Name: $name\nNIM: $nim", Toast.LENGTH_LONG).show()
+                        }
+                    ),
                 shape = RoundedCornerShape(24.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C63FF))
+                enabled = isFormValid,  // Enable or disable the button based on form validity
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isFormValid) Color(0xFF6C63FF) else Color.Gray // Change color based on form validity
+                )
             ) {
-                Text("Submit", style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp, color = Color.White))
+                Text(
+                    "Submit",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 16.sp,
+                        color = Color.White
+                    )
+                )
             }
 
             Spacer(modifier = Modifier.height(24.dp))
