@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "463591091845",
+    "project_id": "praktikum-bdf17",
+    "storage_bucket": "praktikum-bdf17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463591091845:android:c13b5849516099a53483ec",
+        "android_client_info": {
+          "package_name": "com.example.composeview2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWxGwOjfctwVFi1E-xoU60BcWliQTAUa0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
