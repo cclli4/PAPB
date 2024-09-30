@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.composeview2.ui.theme.COMPOSEVIEW2Theme
@@ -36,17 +35,16 @@ fun DataListScreen() {
     var dataList by remember { mutableStateOf(listOf<JadwalKuliahModel>()) }
 
     LaunchedEffect(Unit) {
-        db.collection("jadwal_kuliah")
+        db.collection("jadwal-kuliah")
             .get()
             .addOnSuccessListener { result ->
                 val items = result.documents.map { document ->
                     JadwalKuliahModel(
-                        hari = document.getString("Hari") ?: "Unknown Day",
-                        jamMulai = document.getString("Jam Mulai") ?: "Unknown Start Time",
-                        jamSelesai = document.getString("Jam Selesai") ?: "Unknown End Time",
-                        matkul = document.getString("Matkul") ?: "Unknown Course",
-                        ruang = document.getString("Ruang") ?: "Unknown Room",
-                        isKelas = document.getBoolean("is_kelas") ?: false
+                        hari = document.getString("hari") ?: "",
+                        jamMulai = document.getString("jam mulai") ?: "",
+                        jamSelesai = document.getString("jam selesai") ?: "",
+                        matkul = document.getString("matkul") ?: "",
+                        ruang = document.getString("ruang") ?: ""
                     )
                 }
                 dataList = items
@@ -71,12 +69,11 @@ fun JadwalKuliahCard(data: JadwalKuliahModel) {
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Hari: ${data.hari}", style = MaterialTheme.typography.bodyMedium)
-            Text("Jam Mulai: ${data.jamMulai}", style = MaterialTheme.typography.bodyMedium)
-            Text("Jam Selesai: ${data.jamSelesai}", style = MaterialTheme.typography.bodyMedium)
-            Text("Mata Kuliah: ${data.matkul}", style = MaterialTheme.typography.bodyMedium)
-            Text("Ruang: ${data.ruang}", style = MaterialTheme.typography.bodyMedium)
-            Text("Kelas: ${if (data.isKelas) "Yes" else "No"}", style = MaterialTheme.typography.bodyMedium)
+            Text("hari: ${data.hari}", style = MaterialTheme.typography.bodyMedium)
+            Text("jam mulai: ${data.jamMulai}", style = MaterialTheme.typography.bodyMedium)
+            Text("jam selesai: ${data.jamSelesai}", style = MaterialTheme.typography.bodyMedium)
+            Text("mata kuliah: ${data.matkul}", style = MaterialTheme.typography.bodyMedium)
+            Text("ruang: ${data.ruang}", style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
@@ -87,6 +84,5 @@ data class JadwalKuliahModel(
     val jamMulai: String,
     val jamSelesai: String,
     val matkul: String,
-    val ruang: String,
-    val isKelas: Boolean
+    val ruang: String
 )

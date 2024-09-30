@@ -206,10 +206,3 @@ fun LoginScreen(onLoginClick: (String, String) -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    COMPOSEVIEW2Theme {
-        LoginScreen { _, _ -> }
-    }
-}
