@@ -35,5 +35,11 @@
             android:label="List Activity"
             android:theme="@style/Theme.COMPOSEVIEW2" />
 
+        <activity
+            android:name=".GithubProfileActivity"
+            android:exported="true"
+            android:label="Github Profile"
+            android:theme="@style/Theme.COMPOSEVIEW2" />
+
     </application>
 </manifest>

@@ -1,36 +1,69 @@
 package com.example.composeview2
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.composeview2.ui.theme.COMPOSEVIEW2Theme
-//cicil
+
 class ListActivity : ComponentActivity() {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             COMPOSEVIEW2Theme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    DataListScreen()
-                }
+                Scaffold(
+                    topBar = {
+                        ListActivityTopBar()
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = {
+                                val intent = Intent(this@ListActivity, GithubProfileActivity::class.java)
+                                startActivity(intent)
+                            },
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+                            Image(
+                                painter = rememberImagePainter("https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"),
+                                contentDescription = "GitHub Logo",
+                                modifier = Modifier.size(48.dp)
+                            )
+                        }
+                    },
+                    floatingActionButtonPosition = FabPosition.End,
+                    content = { paddingValues ->
+                        DataListScreen(modifier = Modifier.padding(paddingValues))
+                    }
+                )
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DataListScreen() {
+fun ListActivityTopBar() {
+    TopAppBar(
+        title = { Text("Jadwal Kuliah") }
+    )
+}
+
+@Composable
+fun DataListScreen(modifier: Modifier = Modifier) {
     val db = FirebaseFirestore.getInstance()
     var dataList by remember { mutableStateOf(listOf<JadwalKuliahModel>()) }
 
@@ -52,7 +85,7 @@ fun DataListScreen() {
     }
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -69,11 +102,11 @@ fun JadwalKuliahCard(data: JadwalKuliahModel) {
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("hari: ${data.hari}", style = MaterialTheme.typography.bodyMedium)
-            Text("jam mulai: ${data.jamMulai}", style = MaterialTheme.typography.bodyMedium)
-            Text("jam selesai: ${data.jamSelesai}", style = MaterialTheme.typography.bodyMedium)
-            Text("mata kuliah: ${data.matkul}", style = MaterialTheme.typography.bodyMedium)
-            Text("ruang: ${data.ruang}", style = MaterialTheme.typography.bodyMedium)
+            Text("Hari: ${data.hari}", style = MaterialTheme.typography.bodyMedium)
+            Text("Jam Mulai: ${data.jamMulai}", style = MaterialTheme.typography.bodyMedium)
+            Text("Jam Selesai: ${data.jamSelesai}", style = MaterialTheme.typography.bodyMedium)
+            Text("Mata Kuliah: ${data.matkul}", style = MaterialTheme.typography.bodyMedium)
+            Text("Ruang: ${data.ruang}", style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
