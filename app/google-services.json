@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "435459785248",
+    "project_id": "praktikum-67fd6",
+    "storage_bucket": "praktikum-67fd6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435459785248:android:2d28e415d0585dd3057245",
+        "android_client_info": {
+          "package_name": "com.example.composeview2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkFGF4Dz5qSAhlEHjL8rftWUXEQ9ChoNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
