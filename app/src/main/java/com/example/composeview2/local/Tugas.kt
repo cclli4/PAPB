@@ -1,5 +1,6 @@
 package com.example.composeview2.local
 
+import android.graphics.Bitmap
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -20,5 +21,7 @@ data class Tugas(
     val detailTugas: String,
 
     @ColumnInfo(name = "completed")
-    var completed: Boolean = false
+    var completed: Boolean = false,
+
+    val image: Bitmap? = null
 ) : Parcelable

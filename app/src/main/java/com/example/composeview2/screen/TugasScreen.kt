@@ -234,9 +234,16 @@ fun TugasScreen(modifier: Modifier = Modifier) {
             Button(
                 onClick = {
                     if (matkulInput.isNotBlank() && detailTugasInput.isNotBlank()) {
-                        tugasViewModel.addTugas(Tugas(namaMatkul = matkulInput, detailTugas = detailTugasInput))
+                        tugasViewModel.addTugas(
+                            Tugas(
+                                namaMatkul = matkulInput,
+                                detailTugas = detailTugasInput,
+                                image = capturedImage  // Save captured image
+                            )
+                        )
                         matkulInput = ""
                         detailTugasInput = ""
+                        capturedImage = null // Clear the image after adding
                     }
                 },
                 shape = RoundedCornerShape(16.dp),
@@ -251,7 +258,7 @@ fun TugasScreen(modifier: Modifier = Modifier) {
         // Show camera preview if showCamera is true
         CameraPreview(
             showCamera = showCamera,
-            onImageCaptured = { bitmap -> capturedImage = bitmap }, // Set captured image to state
+            onImageCaptured = { bitmap -> capturedImage = bitmap },
             onCameraClose = { showCamera = false }
         )
 
@@ -274,6 +281,7 @@ fun TugasScreen(modifier: Modifier = Modifier) {
         }
     }
 }
+
 
 
 @Composable
@@ -306,6 +314,17 @@ fun TugasItem(tugas: Tugas, onComplete: () -> Unit) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = if (tugas.completed) Color.Gray else MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                // Display image if it exists
+                tugas.image?.let { bitmap ->
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = "Captured Image",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                            .padding(top = 8.dp)
+                    )
+                }
             }
             IconButton(onClick = onComplete) {
                 Icon(
